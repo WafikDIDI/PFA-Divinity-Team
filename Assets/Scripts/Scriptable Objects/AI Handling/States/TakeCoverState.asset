@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 718e0617d1e665242b766cde445f8a70, type: 3}
-  m_Name: AttackState
+  m_Name: TakeCoverState
   m_EditorClassIdentifier: 
-  StateName: Attack State
+  StateName: TakeCoverState
   actions:
-  - {fileID: 11400000, guid: dafdead0989d8c74cb43fe21d0e84a7c, type: 2}
+  - {fileID: 0}
   transitions:
-  - decision: {fileID: 11400000, guid: ebc17d8bb4ed2fb4eaf7e1f299aae752, type: 2}
+  - decision: {fileID: 11400000, guid: 5f90986e454377b4d8680fcd40c56658, type: 2}
     trueState: {fileID: 11400000, guid: ce9c41a5a9e758c40b593a0d74cf3df0, type: 2}
     falseState: {fileID: 11400000, guid: b413aebce3bcc394db5ad980ec0b5ad4, type: 2}
   - decision: {fileID: 0}
-    trueState: {fileID: 11400000, guid: 28f91c5b2e560cd4f9af902dbc466ed9, type: 2}
+    trueState: {fileID: 11400000, guid: dec76f18c41350f4e91868824e41e70c, type: 2}
     falseState: {fileID: 11400000, guid: b413aebce3bcc394db5ad980ec0b5ad4, type: 2}

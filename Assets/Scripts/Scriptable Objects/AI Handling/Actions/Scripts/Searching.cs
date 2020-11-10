@@ -10,6 +10,7 @@ public class Searching : AIAction {
         if (controller.TargetLastSeenPosition != null) {
             controller.Agent.SetDestination((Vector3)controller.TargetLastSeenPosition);
             controller.Agent.isStopped = false;
+            controller.Agent.updateRotation = true;
         }
     }
 }
