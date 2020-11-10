@@ -29,49 +29,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        Debug.Log("damaged " + healthSystem.HealthPrecent());
-        healthSystem.Damage(10);
-        Debug.Log("damaged " + healthSystem.HealthPrecent());
-        healthBar.Setup(healthSystem);
-    }
-
-    private void Update()
-    {
-        
-        HealCHange();
-    }
+   
 
     public void ChangeCursor(int value)
     {
-        Cursor.SetCursor(cursorList[value], Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(cursorList[value], new Vector2(cursorList[value].width / 2, cursorList[value].height / 2), CursorMode.Auto);
     }
 
     public void ResetCursor()
     {
         Cursor.SetCursor(cursorList[0], Vector2.zero, CursorMode.Auto);
+        
     }
 
     public void BulletResiver(int value)
     {
         OnAmmoChangeUI?.Invoke(value);
-    }
-
-    private void HealCHange()
-    {
-
-        //Debug.Log("health " + healthSystem.GetHealth());
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            healthSystem.Heal(10);
-            Debug.Log("healed " + healthSystem.GetHealth());
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            healthSystem.Damage(10);
-            Debug.Log("damaged " + healthSystem.GetHealth());
-        }
     }
 
 }

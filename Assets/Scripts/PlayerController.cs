@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public float turnSmoothTime = 0.1f;
     public CharacterController characterController;
+    public GameObject cube;
 
     [SerializeField] private float moveSpeed = 6f;
+
 
     private float turnSmoothVelocity;
     private AnimationStates animationState;
@@ -24,22 +26,24 @@ public class PlayerController : MonoBehaviour
     {
         RotationAndCursor();
         Move();
+        //CheckClick();
         //AttackShoot();
     }
 
-
-    private void RotateTowardMousePosition()
+    private void CheckClick()
     {
-         Vector2 positionOnscreen = Camera.main.WorldToViewportPoint(transform.position);
-         Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Ray camerRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-         var angle = AngleBetweenPoints(positionOnscreen, mouseOnScreen);
-         transform.rotation = Quaternion.Euler(new Vector3(0f, angle,0f));
-    }
+            if (Physics.Raycast(camerRay, out hit))
+            {
 
-    private float AngleBetweenPoints(Vector3 a,Vector3 b)
-    {
-        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+                Vector3 vector3 = new Vector3(hit.point.x, 1.3f, hit.point.z);
+                transform.LookAt(vector3);
+            }
+        }
     }
 
     private void RotateRaycastWithPlan()
@@ -47,7 +51,7 @@ public class PlayerController : MonoBehaviour
         Ray camerRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(camerRay,out hit,100))
+        if(Physics.Raycast(camerRay,out hit,1000))
         {
             lookPos = hit.point;
             Debug.DrawLine(camerRay.origin, lookPos, Color.blue);
@@ -55,9 +59,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 lookDirection = lookPos - transform.position;
         lookDirection.y = 0f;
-
         transform.LookAt(transform.position + lookDirection, Vector3.up);
-        //transform.Rotate(transform.position + lookDirection);
     }
 
     private void Move()
@@ -91,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetMouseButton(1) == false)
             {
+
             }
             else
             {
@@ -107,11 +110,11 @@ public class PlayerController : MonoBehaviour
         {
             RotateRaycastWithPlan();
             //RotateTowardMousePosition();
-            //GameManager.instance.ChangeCursor(1);
+            GameManager.instance.ChangeCursor(1);
         }
         else
         {
-          // GameManager.instance.ResetCursor();
+           GameManager.instance.ResetCursor();
         }
     }
 

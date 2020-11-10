@@ -6,10 +6,12 @@ public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] private List<Guns> guns;
     [SerializeField] private Transform pivot;
-    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private AnimationStates animationState;
     [SerializeField] private float cooldwonShoot=0.5f;
 
+
+    private BulletFireDirection bulletFireDirection;
+    private GameObject CurrentbulletPrefab;
     private bool reload;
     private int gunMaxAmmo;
     private int ammoCounter=15;
@@ -19,6 +21,9 @@ public class PlayerShooting : MonoBehaviour
     private void Awake()
     {
         animationState = GetComponent<AnimationStates>();
+        bulletFireDirection = GetComponent<BulletFireDirection>();
+
+        CurrentbulletPrefab = guns[0].bulletPrefab;
         ammoCounter = guns[0].maxAmmo;
         controller = GetComponent<PlayerController>();
         //GameManager.instance.BulletResiver(ammoCounter);
@@ -33,8 +38,11 @@ public class PlayerShooting : MonoBehaviour
 
     public void Shoot()
     {
-        var bullet = Instantiate(bulletPrefab, pivot.position, transform.rotation);
-        bullet.GetComponent<Bullet>().OnCreate(controller.GetMouPotion());
+
+        //var bullet = Instantiate(CurrentbulletPrefab, pivot.position, transform.rotation);
+        bulletFireDirection.CheckClick();
+
+
     }
 
 
@@ -80,7 +88,7 @@ public class PlayerShooting : MonoBehaviour
         {
             reload = true;
         }
-       ;
+       
         StartCoroutine(ReloadCoolDOwn());
     }
 
