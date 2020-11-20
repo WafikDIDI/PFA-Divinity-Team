@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Item
   - Wall
+  - Bullet
+  - Enemy
+  - Keys
   layers:
   - Default
   - TransparentFX
