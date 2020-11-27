@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class Enemy : MonoBehaviour {
@@ -23,10 +24,17 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField] protected int currentWayPointIndex = 0;
 
     // Enemy Stats
-    [Header("Stats")]
+    [Header("States Stats")]
     [SerializeField] protected float detectionRange = 10f;
     [SerializeField] protected Color detectionRangeGizmoColor = Color.blue;
     [SerializeField] protected Transform tragetDetected = null;
+
+    // Searching state variables
+    protected Vector3? tragetLastPosition = null;
+    protected bool isAtTragetLastPosition = false;
+    protected bool isFirstTimeToSearch = true;
+    [Space]
+    [SerializeField] protected float searchingTime = 2f;
 
     [Space]
     [SerializeField] protected float agroRange = 20f;
@@ -34,7 +42,7 @@ public abstract class Enemy : MonoBehaviour {
 
     protected virtual void Awake () {
         meshAgentComponent = GetComponent<NavMeshAgent>();
-        //AIManager.Instance.Enemies.Add(this);
+        AIManager.Enemies.Add(this);
     }
 
     protected virtual void OnDestroy () {
@@ -66,6 +74,22 @@ public abstract class Enemy : MonoBehaviour {
         return false;
     }
 
+    protected bool OverLap (float radius, out Transform hit,string tagtoCheck = "Player") {
+        Collider[] hits = Physics.OverlapSphere(this.transform.position, radius);
+
+        if (hits != null) {
+            for (int i = 0; i < hits.Length; i++) {
+                if (hits[i].gameObject.tag == tagtoCheck) {
+                    hit = hits[i].transform;
+                    return true;
+                }
+            }
+        }
+
+        hit = null;
+        return false;
+    }
+
     protected bool CheckIfPlayerInRange () {
         Collider[] hits = Physics.OverlapSphere(this.transform.position, detectionRange);
 
@@ -90,8 +114,56 @@ public abstract class Enemy : MonoBehaviour {
         Gizmos.DrawWireSphere(this.transform.position, agroRange);
     }
 
-    protected abstract void AttackState ();
-    protected abstract void Patrol ();
-    protected abstract void OverWatch ();
-    protected abstract void Searching ();
+    protected IEnumerator SearchingRoutine () {
+        yield return new WaitForSeconds((float)searchingTime);
+
+        currentState = AIState.Patrol;
+        isFirstTimeToSearch = true;
+    }
+
+    protected virtual void AttackState () { }
+    protected virtual void Patrol () {
+        meshAgentComponent.isStopped = false;
+        meshAgentComponent.SetDestination(wayPoints[currentWayPointIndex].position);
+
+        if (meshAgentComponent.hasPath == false) {
+            if (meshAgentComponent.pathPending == false) {
+                currentWayPointIndex++;
+                currentWayPointIndex %= wayPoints.Count;
+            }
+        }
+
+        if (CheckIfPlayerInRange()) {
+            currentState = AIState.Attack;
+        }
+    }
+    protected virtual void OverWatch () {
+        meshAgentComponent.isStopped = true;
+
+        if (OverLap(agroRange, out tragetDetected)) {
+            currentState = AIState.Attack;
+        }
+    }
+    protected virtual void Searching () {
+
+        if (isAtTragetLastPosition == false) {
+            meshAgentComponent.SetDestination((Vector3)tragetLastPosition);
+            meshAgentComponent.isStopped = false;
+        }
+
+        if (meshAgentComponent.hasPath == false) {
+            isAtTragetLastPosition = true;
+            if (isFirstTimeToSearch) {
+                isFirstTimeToSearch = false;
+                StartCoroutine(SearchingRoutine());
+            }
+        }
+
+        if (CheckIfPlayerInRange()) {
+            currentState = AIState.Attack;
+            isAtTragetLastPosition = false;
+            isFirstTimeToSearch = true;
+            StopCoroutine(SearchingRoutine());
+        }
+    }
 }

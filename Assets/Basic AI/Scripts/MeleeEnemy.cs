@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class MeleeEnemy : Enemy {
 
@@ -20,36 +21,13 @@ public class MeleeEnemy : Enemy {
         } else {
             meshAgentComponent.isStopped = false;
             meshAgentComponent.SetDestination(tragetDetected.position);
+            tragetLastPosition = tragetDetected.position;
         }
 
         if (OverLap(agroRange) == false) {
             currentState = AIState.Searching;
             tragetDetected = null;
         }
-    }
-
-    protected override void OverWatch () {
-        
-    }
-
-    protected override void Patrol () {
-        meshAgentComponent.isStopped = false;
-        meshAgentComponent.SetDestination(wayPoints[currentWayPointIndex].position);
-
-        if (meshAgentComponent.hasPath == false) {
-            if(meshAgentComponent.pathPending == false) {
-                currentWayPointIndex ++;
-                currentWayPointIndex %= wayPoints.Count;
-            }
-        }
-
-        if (CheckIfPlayerInRange()) {
-            currentState = AIState.Attack;
-        }
-    }
-
-    protected override void Searching () {
-        
     }
 
 }
