@@ -6,8 +6,9 @@ using System;
 
 public class Keys :MonoBehaviour 
 {
+    private static PlayerKeysBag playerKeysBag;
 
-    public static Action<KeysType, Image> OnKeyPickUp;
+    public static Action<List<Keys>> OnKeyPickUp;
 
     public enum KeysType
     {
@@ -19,6 +20,12 @@ public class Keys :MonoBehaviour
 
     public KeysType keysType = KeysType.green;
     [SerializeField] private Image imageKey;
+
+    private void Awake()
+    {
+        if (playerKeysBag == null)
+            playerKeysBag = FindObjectOfType<PlayerKeysBag>();
+    }
 
     public KeysType GetKeyType()
     {
@@ -38,7 +45,7 @@ public class Keys :MonoBehaviour
 
     public static void OnKeyPicked(Keys keyPickedUp)
     {
-        OnKeyPickUp?.Invoke(keyPickedUp.keysType, keyPickedUp.imageKey);
+        OnKeyPickUp?.Invoke(playerKeysBag.KeysPickedUpList);
     }
     
 }

@@ -12,7 +12,7 @@ public class OpenDoor : MonoBehaviour
     [SerializeField] private Keys.KeysType keyOfDoor= Keys.KeysType.green;
     [SerializeField] private bool doorLocket = false;
 
-    public static Action<Image> OnKeyUse = null;
+    public static Action<List<Keys>> OnKeyUse = null;
 
     private void Awake()
     {
@@ -27,11 +27,12 @@ public class OpenDoor : MonoBehaviour
             var isHasKeyToRightDoor = playerKeysBag.IsHasKey(keyOfDoor);
             
 
-           if (isHasKeyToRightDoor != null)
+           if (isHasKeyToRightDoor != null || doorLocket)
            {
                 animator.SetBool("open", true);
-
-                OnKeyUse?.Invoke(isHasKeyToRightDoor.GetImage());
+                if (doorLocket) return;
+                doorLocket = true;
+                OnKeyUse?.Invoke(playerKeysBag.KeysPickedUpList);
            }
         }
     }

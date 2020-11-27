@@ -7,7 +7,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public static Action<int> OnAmmoChangeUI;
+    public static Action<int,int> OnAmmoChangeUI;
     
 
     public HealthBar healthBar;
@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void BulletResiver(int value)
+    public void BulletResiver(int value,int value2)
     {
-        OnAmmoChangeUI?.Invoke(value);
+        OnAmmoChangeUI?.Invoke(value,value2);
     }
 
 }

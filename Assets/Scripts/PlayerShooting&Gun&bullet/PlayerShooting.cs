@@ -57,7 +57,7 @@ public class PlayerShooting : MonoBehaviour
                 animationState.ShootingAnimation(true);
                 Shoot();
                 ammoCounter--;
-                GameManager.instance.BulletResiver(ammoCounter);
+                //GameManager.instance.BulletResiver(ammoCounter);
                 StartCoroutine(CooldownBetweenShoot());
             }
             else

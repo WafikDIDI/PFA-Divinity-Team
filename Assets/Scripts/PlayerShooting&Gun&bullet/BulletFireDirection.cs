@@ -70,7 +70,7 @@ public class BulletFireDirection : MonoBehaviour
                     bulletVar.OnStart();
                 
                 gunsList[currentGunIndex].currentAmmoCounter--;
-                GameManager.instance.BulletResiver(gunsList[currentGunIndex].currentAmmoCounter);
+                GameManager.instance.BulletResiver(gunsList[currentGunIndex].currentAmmoCounter, gunsList[currentGunIndex].maxAmmo);
 
                 Relowad();
                 StartCoroutine(CooldownBetweenShoot());
@@ -135,7 +135,7 @@ public class BulletFireDirection : MonoBehaviour
             currentGunIndex = Guns.SwitchWeapon(KeyCode.E, currentGunIndex, gunsList.Count - 1);
         }
 
-        GameManager.instance.BulletResiver(gunsList[currentGunIndex].currentAmmoCounter);
+        GameManager.instance.BulletResiver(gunsList[currentGunIndex].currentAmmoCounter, gunsList[currentGunIndex].maxAmmo);
 
         gunsList[lastIndex].gunRef.SetActive(false);
         gunsList[currentGunIndex].gunRef.SetActive(true);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerKeysBag : MonoBehaviour
 {
     [SerializeField] private List <Keys> keysPickedUpList= new List<Keys>();
+    public List<Keys> KeysPickedUpList { get => keysPickedUpList; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,7 +25,9 @@ public class PlayerKeysBag : MonoBehaviour
         {
             if(keysPickedUpList[i].keysType == keyTypetoLookFor)
             {
-                return keysPickedUpList[i];
+                var keyToReturn = keysPickedUpList[i];
+                keysPickedUpList.Remove(keysPickedUpList[i]);
+                return keyToReturn;
             }
         }
 

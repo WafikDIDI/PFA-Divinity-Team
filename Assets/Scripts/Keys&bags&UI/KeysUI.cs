@@ -5,41 +5,31 @@ using UnityEngine.UI;
 
 public class KeysUI : MonoBehaviour
 {
-
+    
     private void Awake()
     {
         Keys.OnKeyPickUp += CreateImage;
+        OpenDoor.OnKeyUse += CreateImage;
     }
-
-    private void OnEnable()
-    {
-        OpenDoor.OnKeyUse += RemoveImage;
-        
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            //CreateImage();
-        }
-    }
-
     
-    private void CreateImage(Keys.KeysType keyType, Image keysSprite)
+    private void CreateImage(List<Keys> keysPickedUpList)
     {
-        Instantiate(keysSprite, transform);
-    }
+        foreach(Transform tran in transform)
+        {
+            Destroy(tran.gameObject);
+        }
 
-    public void RemoveImage(Image image)
-    {
-        Debug.Log("<<<<<remove>>>>>");
-        image.gameObject.SetActive(false);
+        for (int i = 0; i < keysPickedUpList.Count; i++)
+        {
+            var create = Instantiate(keysPickedUpList[i].GetImage(), transform);
+            create.gameObject.SetActive(true);
+        }
+
     }
+    
 
     private void OnDestroy()
     {
         Keys.OnKeyPickUp -= CreateImage;
-        OpenDoor.OnKeyUse -= RemoveImage;
     }
 }
