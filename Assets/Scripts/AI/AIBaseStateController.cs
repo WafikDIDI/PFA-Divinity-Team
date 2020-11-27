@@ -11,6 +11,8 @@ public class AIBaseStateController : MonoBehaviour {
     private NavMeshAgent agent = null;
     public NavMeshAgent Agent { get => agent; }
 
+    public static PlayerBase Player { get; private set; } = null;
+
     // Settings
     public List<Transform> wayPointsList = new List<Transform>();
     public int NextWayPoint = 0;
@@ -24,6 +26,7 @@ public class AIBaseStateController : MonoBehaviour {
 
     [HideInInspector] public float Timer = 0f;
     public float SearchWaitingTime = 3f;
+    public bool isInCover = false;
 
     [Header("Sight Settings")]
     [Space]
@@ -33,10 +36,14 @@ public class AIBaseStateController : MonoBehaviour {
     public GameObject Target = null;
     public Vector3? TargetLastSeenPosition { get; private set; } = null;
 
+    public float DetectionRange;
+    public float ShootingRange = 30;
     // Cover player is hiding in or going to
-    [HideInInspector] public Cover Cover = null;
+    public Cover Cover = null;
 
     private void Awake () {
+        if(Player == null) Player = FindObjectOfType<PlayerBase>();
+
         aiHandler = FindObjectOfType<AIHandler>();
         agent = GetComponent<NavMeshAgent>();
 
@@ -59,14 +66,6 @@ public class AIBaseStateController : MonoBehaviour {
             return;
 
         currentState.UpdateState(this);
-
-        UpdateCoverState();
-    }
-
-    private void UpdateCoverState () {
-        if (AIHandler.isAILookingForCover) {
-            Cover.CheckIfValid(this.transform);
-        }
     }
 
     public void StateTransition (State nextState) {

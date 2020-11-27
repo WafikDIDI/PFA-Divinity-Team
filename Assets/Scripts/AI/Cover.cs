@@ -6,7 +6,7 @@ public class Cover : MonoBehaviour {
     private static Transform playerTransform = null;
     private static List<Cover> covers = new List<Cover>();
 
-    public bool isValid { get; private set; } = true;
+    [SerializeField] public bool isValid = true;
 
 
     /// <summary>
@@ -16,22 +16,20 @@ public class Cover : MonoBehaviour {
     /// <param name="aiTransform">Referee to the AI Transform, used to fetch current position</param>
     /// <returns></returns>
     public static Cover NearestValidCover (Transform aiTransform) {
-        Cover closestCover = null;
+        Cover closestCover;
 
-        if (covers.Count != 0) {
-            closestCover = covers[0];
-        } else {
-            return null;
-        }
+        closestCover = covers[0];
 
         foreach (Cover cover in covers) {
-            if (closestCover == null) {
-                if ((Vector3.Distance(aiTransform.position, cover.transform.position) 
-                    < Vector3.Distance(aiTransform.position, closestCover.transform.position)) 
-                    && cover.isValid) {
+
+            if (cover.isValid) {
+                if (Vector3.Distance(aiTransform.position, cover.transform.position)
+                < Vector3.Distance(aiTransform.position, closestCover.transform.position) ||
+                !closestCover.isValid) {
                     closestCover = cover;
                 }
             }
+
         }
 
         return closestCover;
@@ -39,7 +37,7 @@ public class Cover : MonoBehaviour {
 
     public static void CheckIfValid (Transform playerTransform) {
         foreach (Cover cover in covers) {
-            var rayDirection = cover.transform.position - playerTransform.position;
+            var rayDirection = playerTransform.position - cover.transform.position;
 
             if (Physics.Raycast(cover.transform.position, rayDirection, out RaycastHit hit)) {
                 if (hit.collider.tag == "Player") {

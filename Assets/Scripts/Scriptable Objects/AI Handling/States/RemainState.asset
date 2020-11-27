@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718e0617d1e665242b766cde445f8a70, type: 3}
   m_Name: RemainState
   m_EditorClassIdentifier: 
+  StateName: 
   actions: []
   transitions: []

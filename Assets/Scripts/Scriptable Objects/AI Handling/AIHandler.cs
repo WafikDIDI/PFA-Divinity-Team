@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIHandler : MonoBehaviour {
-    public static bool isAILookingForCover { get; private set; } = false;
+    public static bool isAILookingForCover { get; set; } = false;
     private static List<AIBaseStateController> aiControlles = new List<AIBaseStateController>();
 
     public static State LookingForCoverState = null;

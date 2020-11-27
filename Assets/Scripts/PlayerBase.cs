@@ -15,6 +15,14 @@ public class PlayerBase : MonoBehaviour
 
     private void Update () {
         PlayerUpdate?.Invoke();
+
+        UpdateCoverState();
+    }
+
+    private void UpdateCoverState () {
+        if (AIHandler.isAILookingForCover) {
+            Cover.CheckIfValid(this.transform);
+        }
     }
 
     private void OnDestroy () {

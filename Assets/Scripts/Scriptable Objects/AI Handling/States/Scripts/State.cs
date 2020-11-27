@@ -1,7 +1,7 @@
 ﻿using UnityEditorInternal;
 using UnityEngine;
 
-[CreateAssetMenu (menuName = "BluggableAI/State", fileName ="New State")]
+[CreateAssetMenu (menuName = "PluggableAI/State", fileName ="New State")]
 public class State : ScriptableObject {
 
     public string StateName = string.Empty;
@@ -22,7 +22,6 @@ public class State : ScriptableObject {
     private void CheckTransition (AIBaseStateController controller) {
         for (int i = 0; i < transitions.Length; i++) {
             bool isDecisionSucceeded = transitions[i].decision.Decide(controller);
-
             if (isDecisionSucceeded) {
                 controller.StateTransition(transitions[i].trueState);
             } else {
