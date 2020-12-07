@@ -14,6 +14,4 @@ public class AnimationStates : MonoBehaviour
     public void AimAnimation(bool verif) => animator.SetBool("aiming", verif);
 
     public void ShootingAnimation(bool verif) => animator.SetBool("shooting", verif);
-
-    public void KnifeAnimation(bool verif) => animator.SetBool("Knife", verif);
 }

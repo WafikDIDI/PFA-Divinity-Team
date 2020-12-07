@@ -1431,7 +1431,7 @@ Transform:
   - {fileID: 426518}
   - {fileID: 499098}
   - {fileID: 451778}
-  - {fileID: 1828632011211047186}
+  - {fileID: 6223525551995806514}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1445,7 +1445,7 @@ Animator:
   m_GameObject: {fileID: 153682}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 897b34267f422c1499700402763d096e, type: 3}
-  m_Controller: {fileID: 9100000, guid: d6dc8f30c2fdc7249a767c9e90f3eee3, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2758,68 +2758,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0000038146973, y: 85.599915, z: -5.1437836}
     m_Extent: {x: 102.12044, y: 94.86452, z: 25.114859}
   m_DirtyAABB: 0
---- !u!1 &1872208285378362944
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 2840480021381388117}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1828632011211047186}
-  m_Layer: 0
-  m_Name: Character_Male_Hoodie (1) (Missing Prefab)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1828632011211047186
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 2840480021381388117}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872208285378362944}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 6223525551995806514}
-  m_Father: {fileID: 407374}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8016803684442455279
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 2840480021381388117}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6223525551995806514}
-  m_Layer: 0
-  m_Name: Missing Prefab (Dummy)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6223525551995806514
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8157441709241726055, guid: c8aa39d59c4645b4b90a42babf769d4f,
-    type: 3}
-  m_PrefabInstance: {fileID: 2840480021381388117}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016803684442455279}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1828632011211047186}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2840480021381388117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3139,3 +3077,9 @@ PrefabInstance:
       objectReference: {fileID: 451778}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8aa39d59c4645b4b90a42babf769d4f, type: 3}
+--- !u!4 &6223525551995806514 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8157441709241726055, guid: c8aa39d59c4645b4b90a42babf769d4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2840480021381388117}
+  m_PrefabAsset: {fileID: 0}

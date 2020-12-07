@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletFireDirection : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject knifeGameObject; // the bullet
+    public GameObject cube; // the bullet
     public float speed;
     public Transform pivotShootTransform = null;
     public bool reload = false;
@@ -17,7 +17,6 @@ public class BulletFireDirection : MonoBehaviour
     private bool fireRate = true;
     private int ammoCounter= 28;
     private int currentGunIndex = 0;
-    private bool isKnifeAttacking=false;
 
     private void Awake()
     {
@@ -39,7 +38,6 @@ public class BulletFireDirection : MonoBehaviour
         //RotatePo();
         WhenPlayerShoot();
         WeaponSwitch();
-        KnifeAttack();
     }
 
     // shoot to  the right position
@@ -58,6 +56,12 @@ public class BulletFireDirection : MonoBehaviour
 
                 Vector3 vector3 = new Vector3(hit.point.x, transform.position.y , hit.point.z);
 
+                if (Input.GetMouseButton(3))
+                {
+
+                    //transform.LookAt(vector3);
+                }
+                
                     var bullet =Instantiate(gunsList[currentGunIndex].bulletPrefab, pivotShootTransform.position, Quaternion.identity);
                     var bulletVar = bullet.GetComponent<Bullet>();
                     Vector3 newHitPoint = new Vector3(hit.point.x , hit.point.y , hit.point.z);
@@ -95,7 +99,7 @@ public class BulletFireDirection : MonoBehaviour
         if (fireRate && !reload)
         {
 
-            if (Input.GetMouseButton(1) && Input.GetMouseButton(0) && !isKnifeAttacking) {
+            if (Input.GetMouseButton(1) && Input.GetMouseButton(0)) {
                 animationState.ShootingAnimation(true);
                 CheckClick();
                 //ammoCounter=gunsList[weaponSwitchIndexCounter].currentAmmoCounter;
@@ -134,10 +138,7 @@ public class BulletFireDirection : MonoBehaviour
         GameManager.instance.BulletResiver(gunsList[currentGunIndex].currentAmmoCounter, gunsList[currentGunIndex].maxAmmo);
 
         gunsList[lastIndex].gunRef.SetActive(false);
-        if(isKnifeAttacking == false)
-        {
-            gunsList[currentGunIndex].gunRef.SetActive(true);
-        }
+        gunsList[currentGunIndex].gunRef.SetActive(true);
         gunsList[lastIndex].gunImage.gameObject.SetActive(false);
         gunsList[currentGunIndex].gunImage.gameObject.SetActive(true);
     }
@@ -168,54 +169,4 @@ public class BulletFireDirection : MonoBehaviour
         reload = false;
     }
 
-    private void KnifeAttack()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            animationState.KnifeAnimation(true);
-            StartCoroutine(KnifeAttackDeplay());
-        }
-        else
-        {
-            animationState.KnifeAnimation(false);
-            //gunsList[currentGunIndex].gunImage.gameObject.SetActive(true);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                other.enabled=false;
-                Debug.Log("enemy Got killed");
-            }
-        }
-    }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {
-            
-        if (collision.collider.CompareTag("Enemy"))
-        {
-            Debug.Log("collsion with enemy");
-            if (isKnifeAttacking)
-            {
-                Debug.Log("enemy Got killed");
-            }
-        }
-     }*/
-
-    
-
-    IEnumerator KnifeAttackDeplay()
-    {
-        isKnifeAttacking = true;
-        knifeGameObject.SetActive(isKnifeAttacking);
-        yield return new WaitForSeconds(1f);
-        isKnifeAttacking = false;
-        knifeGameObject.SetActive(isKnifeAttacking);
-
-    }
 }
