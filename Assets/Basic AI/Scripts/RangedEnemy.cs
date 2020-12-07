@@ -35,6 +35,8 @@ public class RangedEnemy : Enemy {
         } else if (OverLap(detectionRange)) {
             meshAgentComponent.isStopped = true;
 
+            Debug.Log("IsCoverValid  " + Cover.IsCoverValid(cover, tragetDetected));
+
             if (Cover.IsCoverValid(cover, tragetDetected) == false) {
                 if (cover) { cover.IsEmpty = true; }
                 cover = Cover.FindBestCover(tragetDetected, this, detectionRange);
