@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6130258594949719345
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1383645672588356, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_Name
+      value: SM_Prop_Packet_Stack_Large_01 (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383645672588356, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 37.617
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.799
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -44.098
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773825213818316, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8864954
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9561e43ed853f540b02acd1d0d6b572, type: 3}

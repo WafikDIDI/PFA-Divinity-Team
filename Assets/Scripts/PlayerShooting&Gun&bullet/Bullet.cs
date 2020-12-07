@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public Vector3 hitPoint;
 
+    [SerializeField] private GameObject bloodEffect;
     [SerializeField] private float bulletSpeed=20f;
     private Rigidbody rigidbody;
     private Vector3 mouPoOnClick;
@@ -44,6 +45,17 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
             print("wall");
+        }
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            var blood = Instantiate(bloodEffect, transform.position, Quaternion.identity);
+            Destroy(blood.gameObject, 1f);
+            Debug.Log("<<<Blood>>>");
         }
     }
 
