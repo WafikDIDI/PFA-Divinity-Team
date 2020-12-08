@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Guns
 {
-    
+    public string gunAudioName;
     public int maxAmmo=30;
     public int currentAmmoCounter;
     public float timeBetweenShoot;

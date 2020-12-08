@@ -42,7 +42,7 @@ public class barrelDamageZone : MonoBehaviour
                 {
                     var playerHealth = other.GetComponent<PlayerHealth>().healthSystem;
                     Debug.Log("healed " + playerHealth.GetHealth());
-                    playerHealth.Damage(70);
+                    playerHealth.Damage(70,1);
                     Debug.Log("Damaged " + playerHealth.GetHealth());
                     //barrelHasbeenExplosed = false;
                     damageOnceTime = false;

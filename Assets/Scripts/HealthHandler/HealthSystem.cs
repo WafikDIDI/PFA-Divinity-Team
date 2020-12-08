@@ -26,8 +26,18 @@ public class HealthSystem
         return (float) health / healthMax;
     }
 
-    public void Damage(int damage)
+    public void Damage(int damage,int id)
     {
+        switch (id)
+        {
+            case 1:
+                AudioManger.instance.Play("PlayerHit");
+                break;
+            case 2:
+                AudioManger.instance.Play("EnemyHit");
+                break;
+        }
+
         health -= damage;
         if (health < 0) health = 0;
         OnHealChanged?.Invoke(this, EventArgs.Empty);

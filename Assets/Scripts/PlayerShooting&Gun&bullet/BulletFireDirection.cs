@@ -18,6 +18,7 @@ public class BulletFireDirection : MonoBehaviour
     private int ammoCounter= 28;
     private int currentGunIndex = 0;
     private bool isKnifeAttacking=false;
+    private AudioManger audioManger;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class BulletFireDirection : MonoBehaviour
         Relowad();
         gunsList[currentGunIndex].gunRef.SetActive(true);
         //gunsList[currentGunIndex].gunImage.gameObject.SetActive(true);
+
+        audioManger=FindObjectOfType<AudioManger>();
     }
 
 
@@ -71,6 +74,7 @@ public class BulletFireDirection : MonoBehaviour
                 Relowad();
                 StartCoroutine(CooldownBetweenShoot());
             }
+               audioManger.Play(gunsList[currentGunIndex].gunAudioName);
         }
     }
 

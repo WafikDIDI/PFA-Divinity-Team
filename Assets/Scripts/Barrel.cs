@@ -24,4 +24,10 @@ public class Barrel : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        AudioManger.instance.Play("BarrelExplosion");
+        //AudioManger.instance.Sounds[0].source = 0f;
+    }
+
 }

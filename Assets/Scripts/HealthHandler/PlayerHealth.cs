@@ -29,7 +29,7 @@ public class PlayerHealth : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            healthSystem.Damage(10);
+            healthSystem.Damage(10,1);
             Debug.Log("damaged " + healthSystem.GetHealth());
         }
     }
