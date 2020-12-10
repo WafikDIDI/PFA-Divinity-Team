@@ -30,10 +30,11 @@ public class Cover : MonoBehaviour {
                     && covers[i].IsEmpty
                     && InDistance(traget, covers[i].transform, enemyRange) 
                     && InDistance(traget, covers[i].attackPoint, enemyRange)
-                    //&& Vector3.Distance(bestCover.transform.position, enemy.transform.position) > 
-                    //Vector3.Distance(covers[i].transform.position, enemy.transform.position)
                     )
                     {
+                    if (bestCover == null) { bestCover = covers[i]; }
+                    if ( Vector3.Distance(bestCover.transform.position, enemy.transform.position) > 
+                    Vector3.Distance(covers[i].transform.position, enemy.transform.position))
                     Debug.Log(hit.collider.gameObject);
                     bestCover = covers[i];
                 }
