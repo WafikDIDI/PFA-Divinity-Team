@@ -74,7 +74,7 @@ public class BulletFireDirection : MonoBehaviour
                 Relowad();
                 StartCoroutine(CooldownBetweenShoot());
 
-                ScreenShake.instance.ShakeCamera(4f, .1f);
+                ScreenShake.instance.ShakeCamera(4f, .5f);
             }
                audioManger.Play(gunsList[currentGunIndex].gunAudioName);
         }
