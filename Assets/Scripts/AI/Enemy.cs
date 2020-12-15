@@ -139,14 +139,17 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void Patrol () {
         meshAgentComponent.isStopped = false;
         meshAgentComponent.SetDestination(wayPoints[currentWayPointIndex].position);
-        animationHandler.TriggerWalkAnimation();
+        
         meshAgentComponent.speed = walkingSpeed;
 
         if (meshAgentComponent.hasPath == false) {
+            animationHandler.TriggerIdleAnimation();
             if (meshAgentComponent.pathPending == false) {
                 currentWayPointIndex++;
                 currentWayPointIndex %= wayPoints.Count;
             }
+        } else {
+            animationHandler.TriggerWalkAnimation();
         }
 
         if (CheckIfPlayerInRange()) {
@@ -161,6 +164,7 @@ public abstract class Enemy : MonoBehaviour {
             currentState = AIState.Attack;
         }
     }
+
     protected virtual void Searching () {
 
         if (isAtTragetLastPosition == false) {
@@ -181,6 +185,12 @@ public abstract class Enemy : MonoBehaviour {
             isAtTragetLastPosition = false;
             isFirstTimeToSearch = true;
             StopCoroutine(SearchingRoutine());
+        }
+    }
+
+    protected virtual void OnTriggerEnter (Collider other) {
+        if (other.CompareTag("Bullet")) {
+            gameObject.SetActive(false);
         }
     }
 }

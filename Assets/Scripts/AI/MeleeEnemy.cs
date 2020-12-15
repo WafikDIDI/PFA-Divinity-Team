@@ -7,9 +7,10 @@ public class MeleeEnemy : Enemy {
     [SerializeField] private float meleeHurtZone = 2f;
     [SerializeField] private Color meleeHurtZoneGizmoColor = Color.red;
 
-    [SerializeField] private float attackCooldown = 10f;
+    [SerializeField] private float attackCooldown;
     [SerializeField] private float attackTimer = 0f;
-    [SerializeField] bool isAttacking = false;
+    bool isAttacking = false;
+    [SerializeField] private int attackDamage;
 
     protected override void OnDrawGizmos () {
         base.OnDrawGizmos();
@@ -18,30 +19,25 @@ public class MeleeEnemy : Enemy {
         Gizmos.DrawWireSphere(this.transform.position, meleeHurtZone);
     }
 
-    protected override void Awake () {
-        base.Awake();
-
-        attackTimer = attackCooldown;
-    }
-
     protected override void AttackState () {
         attackTimer += Time.deltaTime;
 
-        if (OverLap(meleeHurtZone)) {
+        Transform player = null;
+        if (OverLap(meleeHurtZone, out player, "Player")) {
             meshAgentComponent.isStopped = true;
 
             if (attackCooldown <= attackTimer) {
                 attackTimer -= attackCooldown;
                 animationHandler.TriggerAttackAnimation(true);
-                print("1");
+                player.GetComponent<PlayerHealth>().healthSystem.Damage(attackDamage, 1);
             } else {
                 animationHandler.TriggerIdleAnimation();
-                print("2");
             }
+
         } else {
             meshAgentComponent.isStopped = false;
             meshAgentComponent.SetDestination(tragetDetected.position);
-            animationHandler.TriggerRunAnimation();
+            animationHandler.TriggerRunRangedAnimation();
             isAttacking = false;
             meshAgentComponent.speed = runningSpeed;
             tragetLastPosition = tragetDetected.position;
@@ -50,6 +46,15 @@ public class MeleeEnemy : Enemy {
         if (OverLap(agroRange) == false) {
             currentState = AIState.Searching;
             tragetDetected = null;
+        }
+    }
+
+    protected override void OverWatch () {
+        meshAgentComponent.isStopped = true;
+        animationHandler.TriggerIdleAnimation();
+
+        if (OverLap(detectionRange, out tragetDetected)) {
+            currentState = AIState.Attack;
         }
     }
 

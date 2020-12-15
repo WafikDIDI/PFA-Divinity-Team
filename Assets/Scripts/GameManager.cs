@@ -9,11 +9,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public static Action<int,int> OnAmmoChangeUI;
     
-
-    public HealthBar healthBar;
-    HealthSystem healthSystem = new HealthSystem(100);
-
-
     [SerializeField] private List<Texture2D> cursorList;
 
     private void Awake()
@@ -28,8 +23,6 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-   
 
     public void ChangeCursor(int value)
     {

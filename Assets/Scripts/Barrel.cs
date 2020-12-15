@@ -23,7 +23,7 @@ public class Barrel : MonoBehaviour
             Destroy(explose.gameObject,1f);
 
             AudioManger.instance.Play("BarrelExplosion");
-            ScreenShake.instance.ShakeCamera(14f, 1f);
+            ScreenShake.instance.ShakeCamera(15f, 1f);
         }
     }
 

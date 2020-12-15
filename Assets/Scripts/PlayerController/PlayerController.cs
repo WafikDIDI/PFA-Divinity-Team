@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             }
 
                 characterController.Move(direction * moveSpeed * Time.deltaTime);
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
                     characterController.Move(direction * moveSpeed *2* Time.deltaTime);
                     currentSpeed = moveSpeed * 2;

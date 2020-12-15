@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +24,13 @@ public class AIAnimationHandler : MonoBehaviour
         animatorReference.SetBool("Attack", false);
     }
 
+    public void TriggerRunRangedAnimation () {
+        animatorReference.SetBool("Walk", true);
+        animatorReference.SetBool("Run", true);
+        animatorReference.SetBool("Attack", false);
+        animatorReference.SetBool("Aim", false);
+    }
+
     public void TriggerIdleAnimation () {
         animatorReference.SetBool("Run", false);
         animatorReference.SetBool("Walk", false);
@@ -38,5 +46,14 @@ public class AIAnimationHandler : MonoBehaviour
         
         animatorReference.SetBool("Attack", state);
 
+    }
+
+    public void TriggerAimAnimation () {
+        animatorReference.SetBool("Aim", true);
+        animatorReference.SetBool("RunBack", false);
+    }
+
+    public void TriggerRunBackAnimaton () {
+        animatorReference.SetBool("RunBack", true);
     }
 }

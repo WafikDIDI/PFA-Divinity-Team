@@ -41,6 +41,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        
+
         if (collision.collider.CompareTag("Wall"))
         {
             Destroy(gameObject);
@@ -51,8 +53,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        
+
+        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
         {
+            Destroy(this.gameObject);
             var blood = Instantiate(bloodEffect, transform.position, Quaternion.identity);
             Destroy(blood.gameObject, 1f);
             Debug.Log("<<<Blood>>>");

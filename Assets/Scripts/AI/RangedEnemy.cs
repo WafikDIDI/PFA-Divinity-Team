@@ -10,6 +10,14 @@ public class RangedEnemy : Enemy {
     private bool isInCover = false;
     private Cover cover = null;
 
+    [Space]
+    [Header("Shooting Settings")]
+    [SerializeField] private Transform shootingTrans = null;
+    [SerializeField] private Transform bullet = null;
+    [SerializeField] private float shootingCooldown = 2f;
+    private float shootingTimer = 0f; 
+
+
     protected override void OnDrawGizmos () {
         base.OnDrawGizmos();
 
@@ -19,6 +27,10 @@ public class RangedEnemy : Enemy {
 
 
     protected override void AttackState () {
+        if(shootingCooldown> shootingTimer) {
+            shootingTimer += Time.deltaTime;
+        }
+        
         if (tragetDetected != null) {
             Vector3 lookdirection = new Vector3(
                     tragetDetected.position.x,
@@ -32,9 +44,17 @@ public class RangedEnemy : Enemy {
 
         if (OverLap(fleeRange)) {
             Flee();
+            animationHandler.TriggerRunBackAnimaton();
         } else if (OverLap(detectionRange)) {
             meshAgentComponent.isStopped = true;
 
+            if(shootingTimer >= shootingCooldown) {
+                shootingTimer -= shootingCooldown;
+
+                animationHandler.TriggerAimAnimation();
+                Instantiate(bullet, shootingTrans.position, shootingTrans.rotation);
+            }
+            /*
             Debug.Log("IsCoverValid  " + Cover.IsCoverValid(cover, tragetDetected));
 
             if (Cover.IsCoverValid(cover, tragetDetected) == false) {
@@ -54,8 +74,10 @@ public class RangedEnemy : Enemy {
                     isInCover = true;
                 }
             }
+            */
         } else if (OverLap(agroRange, out tragetDetected)) {
             GotoDetectedTarget();
+            animationHandler.TriggerRunRangedAnimation();
         }
 
 
