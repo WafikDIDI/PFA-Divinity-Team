@@ -107,3 +107,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keysType: 3
+  imageKey: {fileID: 6797762665503052396, guid: 20b04e0969fece14da22d0992921f687,
+    type: 3}

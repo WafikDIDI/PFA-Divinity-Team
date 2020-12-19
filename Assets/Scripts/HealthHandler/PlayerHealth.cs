@@ -34,4 +34,13 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BulletE"))
+        {
+            Destroy(other.gameObject);
+            var bulletDamage = other.GetComponent<Bullet>().bulletDamage;
+            healthSystem.Damage(bulletDamage, 1);
+        }
+    }
 }

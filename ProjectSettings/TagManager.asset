@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Enemy
   - Keys
+  - BulletE
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - ShootZone
   - HouseZone
-  - 
+  - MiniMapIcons
   - 
   - 
   - 

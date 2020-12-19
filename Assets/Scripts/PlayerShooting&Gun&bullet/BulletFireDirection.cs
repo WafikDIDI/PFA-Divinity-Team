@@ -194,7 +194,6 @@ public class BulletFireDirection : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                other.enabled=false;
                 Debug.Log("enemy Got killed");
             }
         }

@@ -47,6 +47,12 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField] protected float agroRange = 20f;
     [SerializeField] protected Color agroRangeGizmoColor = Color.cyan;
 
+    // Health of Enemy Handler
+    [Space]
+    [SerializeField] protected HealthBar healthBar = null;
+    [SerializeField] protected HealthSystem healthSystem = new HealthSystem(100);
+
+
     protected virtual void Awake () {
         meshAgentComponent = GetComponent<NavMeshAgent>();
         animationHandler = GetComponent<AIAnimationHandler>();
@@ -57,6 +63,8 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void OnDestroy () {
         //AIManager.Instance.Enemies.Remove(this);
     }
+
+    protected virtual void  Start() => healthBar.Setup(healthSystem);
 
     protected virtual void Update () => StateCheck();
 
@@ -189,8 +197,28 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     protected virtual void OnTriggerEnter (Collider other) {
+        var currentHealth = healthSystem.GetHealth();
+        healthBar.gameObject.SetActive(true);
+
         if (other.CompareTag("Bullet")) {
-            gameObject.SetActive(false);
+            var bulletDamage = other.GetComponent<Bullet>().bulletDamage;
+            healthSystem.Damage(bulletDamage, 2);
+                if (currentHealth <= 0)
+                    {
+                        gameObject.SetActive(false);
+                    }
+        }
+        if (other.CompareTag("Player") )
+        {
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                healthSystem.Damage(50, 2);
+                if (currentHealth <= 0)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
         }
     }
+
 }

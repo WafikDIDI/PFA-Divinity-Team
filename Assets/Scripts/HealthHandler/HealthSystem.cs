@@ -34,7 +34,15 @@ public class HealthSystem
                 AudioManger.instance.Play("PlayerHit");
                 break;
             case 2:
-                AudioManger.instance.Play("EnemyHit");
+                var x = UnityEngine.Random.Range(1, 3);
+                if (x == 1)
+                {
+                    AudioManger.instance.Play("EnemyHit1");
+                }
+                else 
+                {
+                    AudioManger.instance.Play("EnemyHit2");
+                }
                 break;
         }
 

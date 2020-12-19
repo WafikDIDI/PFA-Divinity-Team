@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public Vector3 hitPoint;
+    private enum GunType
+    {
+        Pistol,
+        Rifle,
+        AssaultRifle
+    }
 
+    public Vector3 hitPoint;
+    public int bulletDamage;
+
+    [SerializeField] private GunType gunType=GunType.Pistol;
     [SerializeField] private GameObject bloodEffect;
     [SerializeField] private float bulletSpeed=20f;
     private Rigidbody rigidbody;
@@ -18,8 +27,9 @@ public class Bullet : MonoBehaviour
 
     }
 
-    private void Updatet()
+    private void Start()
     {
+        BulletDamageGun();
     }
 
     public void OnStart()
@@ -41,8 +51,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
 
+        
         if (collision.collider.CompareTag("Wall"))
         {
             Destroy(gameObject);
@@ -53,7 +63,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
 
         if (other.CompareTag("Enemy") || other.CompareTag("Player"))
         {
@@ -62,10 +71,34 @@ public class Bullet : MonoBehaviour
             Destroy(blood.gameObject, 1f);
             Debug.Log("<<<Blood>>>");
         }
+
+        if (other.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+            print("wall");
+        }
     }
 
     public void OnCreate(Vector3 mouPoOnClick)
     {
         this.mouPoOnClick = mouPoOnClick;
+    }
+
+    private void BulletDamageGun()
+    {
+        switch (gunType)
+        {
+            case GunType.Pistol:
+                bulletDamage += 2;
+                break;
+            case GunType.Rifle:
+                bulletDamage += 3;
+                break;
+            case GunType.AssaultRifle:
+                bulletDamage += 5;
+                break;
+            default:
+                break;
+        }
     }
 }
