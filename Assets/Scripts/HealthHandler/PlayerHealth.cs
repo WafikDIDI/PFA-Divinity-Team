@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
+
     public HealthBar healthBar=null;
     public HealthSystem healthSystem = new HealthSystem(100);
     
@@ -12,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         healthBar.Setup(healthSystem);
+        healthSystem.isPlayerHealth = true;
     }
 
     // Update is called once per frame

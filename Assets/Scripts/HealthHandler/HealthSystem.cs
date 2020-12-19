@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public class HealthSystem 
 {
     public event EventHandler OnHealChanged;
 
     private int health;
     private int healthMax;
+
+    public bool isPlayerHealth = false;
 
     public HealthSystem(int healthMax)
     {
@@ -47,7 +50,12 @@ public class HealthSystem
         }
 
         health -= damage;
-        if (health < 0) health = 0;
+        if (health <= 0) {
+            health = 0;
+            if (isPlayerHealth) {
+                GameManager.instance.GameOver();
+            }
+        }
         OnHealChanged?.Invoke(this, EventArgs.Empty);
     }
 

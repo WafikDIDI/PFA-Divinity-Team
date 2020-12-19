@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(AIAnimationHandler))]
 public abstract class Enemy : MonoBehaviour {
@@ -64,7 +64,7 @@ public abstract class Enemy : MonoBehaviour {
         //AIManager.Instance.Enemies.Remove(this);
     }
 
-    protected virtual void  Start() => healthBar.Setup(healthSystem);
+    protected virtual void Start () => healthBar.Setup(healthSystem);
 
     protected virtual void Update () => StateCheck();
 
@@ -75,9 +75,9 @@ public abstract class Enemy : MonoBehaviour {
             case AIState.Searching: Searching(); break;
             case AIState.Patrol: Patrol(); break;
         }
-    } 
+    }
 
-    protected bool OverLap(float radius, string tagtoCheck = "Player") {
+    protected bool OverLap (float radius, string tagtoCheck = "Player") {
         Collider[] hits = Physics.OverlapSphere(this.transform.position, radius);
 
         if (hits != null) {
@@ -91,7 +91,7 @@ public abstract class Enemy : MonoBehaviour {
         return false;
     }
 
-    protected bool OverLap (float radius, out Transform hit,string tagtoCheck = "Player") {
+    protected bool OverLap (float radius, out Transform hit, string tagtoCheck = "Player") {
         Collider[] hits = Physics.OverlapSphere(this.transform.position, radius);
 
         if (hits != null) {
@@ -112,7 +112,7 @@ public abstract class Enemy : MonoBehaviour {
 
         if (hits != null) {
             for (int i = 0; i < hits.Length; i++) {
-                if(hits[i].gameObject.tag == "Player") {
+                if (hits[i].gameObject.tag == "Player") {
                     tragetDetected = hits[i].transform;
                     return true;
                 }
@@ -134,7 +134,7 @@ public abstract class Enemy : MonoBehaviour {
     protected IEnumerator SearchingRoutine () {
         yield return new WaitForSeconds((float)searchingTime);
 
-        if(wayPoints.Count == 0) {
+        if (wayPoints.Count == 0) {
             currentState = AIState.OverWatch;
         } else {
             currentState = AIState.Patrol;
@@ -147,7 +147,7 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void Patrol () {
         meshAgentComponent.isStopped = false;
         meshAgentComponent.SetDestination(wayPoints[currentWayPointIndex].position);
-        
+
         meshAgentComponent.speed = walkingSpeed;
 
         if (meshAgentComponent.hasPath == false) {
@@ -197,24 +197,23 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     protected virtual void OnTriggerEnter (Collider other) {
-        var currentHealth = healthSystem.GetHealth();
+
         healthBar.gameObject.SetActive(true);
 
         if (other.CompareTag("Bullet")) {
             var bulletDamage = other.GetComponent<Bullet>().bulletDamage;
             healthSystem.Damage(bulletDamage, 2);
-                if (currentHealth <= 0)
-                    {
-                        gameObject.SetActive(false);
-                    }
+            var currentHealth = healthSystem.GetHealth();
+            if (currentHealth <= 0) {
+                gameObject.SetActive(false);
+            }
         }
-        if (other.CompareTag("Player") )
-        {
-            if(Input.GetKeyDown(KeyCode.F))
-            {
+
+        if (other.CompareTag("Player")) {
+            if (Input.GetKeyDown(KeyCode.F)) {
                 healthSystem.Damage(50, 2);
-                if (currentHealth <= 0)
-                {
+                var currentHealth = healthSystem.GetHealth();
+                if (currentHealth <= 0) {
                     gameObject.SetActive(false);
                 }
             }

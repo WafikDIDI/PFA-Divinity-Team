@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public static Action<int,int> OnAmmoChangeUI;
-    
+
     [SerializeField] private List<Texture2D> cursorList;
 
     private void Awake()
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
-    }
+    } 
 
     public void ChangeCursor(int value)
     {
@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
     public void BulletResiver(int value,int value2)
     {
         OnAmmoChangeUI?.Invoke(value,value2);
+    }
+
+    public void GameOver () {
+        Time.timeScale = 0f;
     }
 
 }
