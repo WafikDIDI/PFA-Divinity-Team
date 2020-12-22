@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DivinityPFA.Systems;
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,16 +13,16 @@ public class PlayerController : MonoBehaviour
 
     private float turnSmoothVelocity;
     private AnimationStates animationState;
-    private float currentSpeed=0f;
+    private float currentSpeed = 0f;
     private Vector3 lookPos;
 
-    private void Start()
+    private void Start ()
     {
         animationState = GetComponent<AnimationStates>();
         animationState.ChangeAnimationState(0);
     }
 
-    void Update()
+    void Update ()
     {
         RotationAndCursor();
         Move();
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         //AttackShoot();
     }
 
-    private void CheckClick()
+    private void CheckClick ()
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -46,12 +46,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void RotateRaycastWithPlan()
+    private void RotateRaycastWithPlan ()
     {
         Ray camerRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(camerRay,out hit,1000))
+        if (Physics.Raycast(camerRay, out hit, 1000))
         {
             lookPos = hit.point;
             Debug.DrawLine(camerRay.origin, lookPos, Color.blue);
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         transform.LookAt(transform.position + lookDirection, Vector3.up);
     }
 
-    private void Move()
+    private void Move ()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -79,46 +79,43 @@ public class PlayerController : MonoBehaviour
 
             }
 
-                characterController.Move(direction * moveSpeed * Time.deltaTime);
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                {
-                    characterController.Move(direction * moveSpeed *2* Time.deltaTime);
-                    currentSpeed = moveSpeed * 2;
-                }
-                else
-                {
-                    currentSpeed = moveSpeed;
-                }
-                ChangeAnimation(currentSpeed);
+            characterController.Move(direction * moveSpeed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                characterController.Move(direction * moveSpeed * 2 * Time.deltaTime);
+                currentSpeed = moveSpeed * 2;
+            } else
+            {
+                currentSpeed = moveSpeed;
+            }
+            ChangeAnimation(currentSpeed);
 
             if (Input.GetMouseButton(1) == false)
             {
 
-            }
-            else
+            } else
             {
                 //characterController.Move(Vector3.zero);
             }
         }
     }
 
-    private void ChangeAnimation(float value)=> animationState.ChangeAnimationState(value);
-    
-    private void RotationAndCursor()
+    private void ChangeAnimation (float value) => animationState.ChangeAnimationState(value);
+
+    private void RotationAndCursor ()
     {
         if (Input.GetMouseButton(1))
         {
             //RotateRaycastWithPlan();
             //RotateTowardMousePosition();
             GameManager.instance.ChangeCursor(1);
-        }
-        else
+        } else
         {
-           GameManager.instance.ResetCursor();
+            GameManager.instance.ResetCursor();
         }
     }
 
-    public Vector3 GetMouPotion()
+    public Vector3 GetMouPotion ()
     {
         Ray camerRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -129,11 +126,11 @@ public class PlayerController : MonoBehaviour
             Debug.DrawLine(camerRay.origin, lookPos, Color.blue);
         }
 
-        Vector3 lookDirection =  transform.position;
+        Vector3 lookDirection = transform.position;
         lookDirection.y = 0f;
 
         return lookDirection;
     }
 
-    
+
 }

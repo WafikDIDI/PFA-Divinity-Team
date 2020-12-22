@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using DivinityPFA.Systems;
 
-public class OpenDoor : MonoBehaviour
+public class OpenDoor : MonoBehaviour, ISaveable
 {
     private static PlayerKeysBag playerKeysBag;
 
@@ -58,4 +59,13 @@ public class OpenDoor : MonoBehaviour
         }
     }
 
+    public object CaptureState ()
+    {
+        return doorLocket;
+    }
+
+    public void RestoreState (object state)
+    {
+        doorLocket = (bool)state;
+    }
 }

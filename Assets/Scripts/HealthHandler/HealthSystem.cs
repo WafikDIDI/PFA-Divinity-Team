@@ -11,12 +11,21 @@ public class HealthSystem
     private int health;
     private int healthMax;
 
+    public int Health => health;
+    public int HealthMax => healthMax;
+
     public bool isPlayerHealth = false;
 
     public HealthSystem(int healthMax)
     {
         this.healthMax = healthMax;
         health = healthMax;
+    }
+
+    public HealthSystem (int healthMax, int heath)
+    {
+        this.healthMax = healthMax;
+        this.health = heath;
     }
 
     public int GetHealth()
@@ -66,5 +75,4 @@ public class HealthSystem
         OnHealChanged?.Invoke(this, EventArgs.Empty);
 
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DivinityPFA.Systems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -56,8 +57,6 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void Awake () {
         meshAgentComponent = GetComponent<NavMeshAgent>();
         animationHandler = GetComponent<AIAnimationHandler>();
-
-        AIManager.Enemies.Add(this);
     }
 
     protected virtual void OnDestroy () {
