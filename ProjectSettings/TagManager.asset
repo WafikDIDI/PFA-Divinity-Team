@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Keys
   - BulletE
+  - Boss
   layers:
   - Default
   - TransparentFX

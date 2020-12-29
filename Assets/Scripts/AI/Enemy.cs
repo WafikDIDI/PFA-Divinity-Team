@@ -19,10 +19,11 @@ public abstract class Enemy : MonoBehaviour {
         Patrol,
         Attack,
         Searching,
+        GoingToPoint,
     }
 
     // State
-    [SerializeField] protected AIState currentState = AIState.Patrol;
+    [SerializeField] protected AIState currentState;
 
     //Components
     protected NavMeshAgent meshAgentComponent = null;
@@ -53,10 +54,13 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField] protected HealthBar healthBar = null;
     [SerializeField] protected HealthSystem healthSystem = new HealthSystem(100);
 
+    // Going To Point State 
+    protected Vector3 goToPoint;
 
     protected virtual void Awake () {
         meshAgentComponent = GetComponent<NavMeshAgent>();
         animationHandler = GetComponent<AIAnimationHandler>();
+
     }
 
     protected virtual void OnDestroy () {
@@ -64,6 +68,13 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     protected virtual void Start () => healthBar.Setup(healthSystem);
+
+    public void Goto (Vector3 goToPoint)
+    {
+        this.goToPoint = goToPoint;
+        currentState = AIState.GoingToPoint;
+        print("&");
+    }
 
     protected virtual void Update () => StateCheck();
 
@@ -73,6 +84,20 @@ public abstract class Enemy : MonoBehaviour {
             case AIState.Attack: AttackState(); break;
             case AIState.Searching: Searching(); break;
             case AIState.Patrol: Patrol(); break;
+            case AIState.GoingToPoint: GoToPoint(); break;
+        }
+    }
+
+    protected virtual void GoToPoint ()
+    {
+        meshAgentComponent.SetDestination(goToPoint);
+        animationHandler.TriggerRunAnimation();
+        meshAgentComponent.speed = runningSpeed;
+        meshAgentComponent.isStopped = false;
+
+        if (OverLap(agroRange, out tragetDetected))
+        {
+            currentState = AIState.Attack;
         }
     }
 
@@ -144,6 +169,11 @@ public abstract class Enemy : MonoBehaviour {
 
     protected virtual void AttackState () { }
     protected virtual void Patrol () {
+        if(wayPoints.Count == 0)
+        {
+            currentState = AIState.OverWatch;
+        }
+
         meshAgentComponent.isStopped = false;
         meshAgentComponent.SetDestination(wayPoints[currentWayPointIndex].position);
 
@@ -163,6 +193,7 @@ public abstract class Enemy : MonoBehaviour {
             currentState = AIState.Attack;
         }
     }
+
     protected virtual void OverWatch () {
         meshAgentComponent.isStopped = true;
         animationHandler.TriggerIdleAnimation();
@@ -197,11 +228,12 @@ public abstract class Enemy : MonoBehaviour {
 
     protected virtual void OnTriggerEnter (Collider other) {
 
-        healthBar.gameObject.SetActive(true);
-
         if (other.CompareTag("Bullet")) {
+            if(this.tag == "Boss") { return; }
+
             var bulletDamage = other.GetComponent<Bullet>().bulletDamage;
             healthSystem.Damage(bulletDamage, 2);
+            healthBar.gameObject.SetActive(true);
             var currentHealth = healthSystem.GetHealth();
             if (currentHealth <= 0) {
                 gameObject.SetActive(false);

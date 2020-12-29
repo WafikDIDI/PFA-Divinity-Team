@@ -2519,10 +2519,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 1
   runningSpeed: 2.5
-  currentState: 1
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
+  currentState: 0
+  wayPoints: []
   currentWayPointIndex: 0
   detectionRange: 6.37
   detectionRangeGizmoColor: {r: 0.5424528, g: 1, b: 0.5446942, a: 1}
