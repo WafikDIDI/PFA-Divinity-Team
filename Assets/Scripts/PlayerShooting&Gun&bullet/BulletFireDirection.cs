@@ -5,7 +5,12 @@ using UnityEngine;
 public class BulletFireDirection : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject knifeGameObject; // the bullet
+    private AnimationStates animationState = null;
+
+    [SerializeField] private GameObject knifeGameObject; // the bullet
+    [SerializeField] private float KnifeAttackTime=4f;
+     private float KnifeAttackCounter=0f;
+
     public float speed;
     public Transform pivotShootTransform = null;
     public bool reload = false;
@@ -13,11 +18,11 @@ public class BulletFireDirection : MonoBehaviour
     [SerializeField] private List<Guns> gunsList = new List<Guns>();
     [SerializeField] private float cooldwonShoot = 0.5f;
 
-    private AnimationStates animationState = null;
     private bool fireRate = true;
     private int ammoCounter= 28;
     private int currentGunIndex = 0;
     private bool isKnifeAttacking=false;
+
     private AudioManger audioManger;
 
     private void Awake()
@@ -34,6 +39,8 @@ public class BulletFireDirection : MonoBehaviour
         //gunsList[currentGunIndex].gunImage.gameObject.SetActive(true);
 
         audioManger=FindObjectOfType<AudioManger>();
+
+        KnifeAttackCounter = KnifeAttackTime;
     }
 
 
@@ -74,7 +81,7 @@ public class BulletFireDirection : MonoBehaviour
                 Relowad();
                 StartCoroutine(CooldownBetweenShoot());
 
-                ScreenShake.instance.ShakeCamera(5f, .1f);
+                ScreenShake.instance.ShakeCamera(3f, .05f);
             }
                audioManger.Play(gunsList[currentGunIndex].gunAudioName);
         }
@@ -176,25 +183,31 @@ public class BulletFireDirection : MonoBehaviour
 
     private void KnifeAttack()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (KnifeAttackCounter >= KnifeAttackTime)
         {
-            animationState.KnifeAnimation(true);
-            StartCoroutine(KnifeAttackDeplay());
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                StartCoroutine(KnifeAttackDeplay());
+                KnifeAttackCounter = 0f;
+            }
         }
         else
         {
-            animationState.KnifeAnimation(false);
-            //gunsList[currentGunIndex].gunImage.gameObject.SetActive(true);
+            KnifeAttackCounter+=Time.deltaTime;
         }
+
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (KnifeAttackCounter >= KnifeAttackTime && Input.GetKeyDown(KeyCode.F))
             {
                 Debug.Log("enemy Got killed");
+                other.GetComponent<Enemy>().EnemeyhealthSystem.Damage(150, 2);
+                other.gameObject.SetActive(false);
+
             }
         }
     }
@@ -218,6 +231,9 @@ public class BulletFireDirection : MonoBehaviour
     {
         isKnifeAttacking = true;
         knifeGameObject.SetActive(isKnifeAttacking);
+        animationState.KnifeAnimation(true);
+        yield return new WaitForSeconds(0.1f);
+        animationState.KnifeAnimation(false);
         yield return new WaitForSeconds(1f);
         isKnifeAttacking = false;
         knifeGameObject.SetActive(isKnifeAttacking);

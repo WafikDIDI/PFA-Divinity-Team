@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, ISaveable
 {
     public HealthBar healthBar = null;
-    public HealthSystem healthSystem = new HealthSystem(100);
+    public HealthSystem healthSystem = new HealthSystem(500);
 
+    
     void Start ()
     {
         healthBar.Setup(healthSystem);
@@ -39,6 +40,12 @@ public class PlayerHealth : MonoBehaviour, ISaveable
             Destroy(other.gameObject);
             var bulletDamage = other.GetComponent<Bullet>().bulletDamage;
             healthSystem.Damage(bulletDamage, 1);
+        }
+
+        if (other.CompareTag("MedKit"))
+        {
+            healthSystem.Heal(40);
+            other.gameObject.SetActive(false);
         }
     }
 

@@ -54,6 +54,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField] protected HealthBar healthBar = null;
     [SerializeField] protected HealthSystem healthSystem = new HealthSystem(100);
 
+    public HealthSystem EnemeyhealthSystem => healthSystem;
+
     // Going To Point State 
     protected Vector3 goToPoint;
 

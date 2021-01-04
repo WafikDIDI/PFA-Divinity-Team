@@ -27,6 +27,7 @@ public class Boss : MonoBehaviour
 
     [Space]
     [SerializeField] private HealthBar healthBar;
+    [SerializeField] private GameObject healthBarDisplay;
     private HealthSystem healthSystem = new HealthSystem(400);
 
     private void Start ()
@@ -47,7 +48,7 @@ public class Boss : MonoBehaviour
             if (OverLap(startBattleRaduis))
             {
                 isBattleStarted = true;
-
+                healthBarDisplay.SetActive(true);
                 StartBattle();
                 CheckState();
             }
@@ -84,6 +85,7 @@ public class Boss : MonoBehaviour
             if (healthSystem.Health <= 0)
             {
                 gameObject.SetActive(false);
+                healthBarDisplay.SetActive(false);
             }
         }
     }
