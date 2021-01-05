@@ -2,14 +2,25 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DivinityPFA.Systems
 {
     public class SaveLoadSystem : MonoBehaviour
     {
+        [SerializeField] private Button continueButton = null;
+
         private string savePath => Application.persistentDataPath + "/save.txt";
 
         private void Awake () => Load();
+
+        private void Start ()
+        {
+            if(continueButton != null)
+            {
+                continueButton.interactable = File.Exists(savePath);
+            }
+        }
 
         [ContextMenu("Save")]
         public void Save ()
