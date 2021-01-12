@@ -11,24 +11,9 @@ public class SceneHandler : MonoBehaviour
     public int loadSceneId;
     public bool isIntroScene=false;
 
+    public void LoadScene () => SceneManager.LoadScene(loadSceneId);
 
+    public void LoadScene (int index) => SceneManager.LoadScene(index);
 
-    public void OnLoadScene()
-    {
-        SceneManager.LoadScene(loadSceneId);
-    }
-
-    IEnumerator LoadScene()
-    {
-        yield return new WaitForSeconds(timeLoadScene);
-        SceneManager.LoadScene(loadSceneId);
-    }
-
-    private void Update()
-    {
-        if (isIntroScene)
-        {
-            StartCoroutine(LoadScene());
-        }
-    }
+    public void OnExitButton () => Application.Quit();
 }

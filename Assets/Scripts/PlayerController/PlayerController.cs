@@ -20,14 +20,18 @@ public class PlayerController : MonoBehaviour
     {
         animationState = GetComponent<AnimationStates>();
         animationState.ChangeAnimationState(0);
+
+        Time.timeScale = 1f;
+        GameManager.instance.isPlayerAbleToMove = true;
     }
 
     void Update ()
     {
-        RotationAndCursor();
-        Move();
-        //CheckClick();
-        //AttackShoot();
+        if (GameManager.instance.IsPlayerAbleToMove)
+        {
+            RotationAndCursor();
+            Move();
+        }
     }
 
     private void CheckClick ()
@@ -45,6 +49,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void SetTransform (Vector3 position) => transform.position = position;
 
     private void RotateRaycastWithPlan ()
     {

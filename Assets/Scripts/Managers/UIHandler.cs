@@ -8,10 +8,14 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private Text ammoText;
     [SerializeField] private Text maxAmmoText;
 
-
     private void OnEnable()
     {
         GameManager.OnAmmoChangeUI += AmmoChangeUI;
+    }
+
+    private void OnDisable ()
+    {
+        GameManager.OnAmmoChangeUI -= AmmoChangeUI;
     }
 
     private void AmmoChangeUI(int value,int value2)

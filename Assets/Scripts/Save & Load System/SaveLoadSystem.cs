@@ -31,11 +31,12 @@ namespace DivinityPFA.Systems
         }
 
         [ContextMenu("Delete Save")]
-        private void DeleteSave ()
+        public void DeleteSave ()
         {
             if (File.Exists(savePath))
             {
                 File.Delete(savePath);
+                continueButton.interactable = File.Exists(savePath);
             }
         }
 

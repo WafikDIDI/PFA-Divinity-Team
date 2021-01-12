@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, ISaveable
 {
     public HealthBar healthBar = null;
-    public HealthSystem healthSystem = new HealthSystem(500);
+    public HealthSystem healthSystem = new HealthSystem(300);
+    [SerializeField] private int maxHealth;
+    public int MaxHealth => maxHealth;
 
-    
     void Start ()
     {
+        healthSystem.SetMaxHealth(maxHealth);
         healthBar.Setup(healthSystem);
         healthSystem.isPlayerHealth = true;
     }
@@ -28,7 +30,7 @@ public class PlayerHealth : MonoBehaviour, ISaveable
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            healthSystem.Damage(10, 1);
+            healthSystem.Damage(400, 1);
             Debug.Log("damaged " + healthSystem.GetHealth());
         }
     }

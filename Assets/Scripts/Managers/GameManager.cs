@@ -3,10 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DivinityPFA.Systems;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, ISaveable
 {
-    private PlayerController playerController = null;
+    #region PlayerDeath
+
+    [SerializeField] private Transform deathUITransfrom = null;
+
+    private void TriggerDeathUI ()
+    {
+        deathUITransfrom.gameObject.SetActive(true);
+        isPlayerAbleToMove = false;
+    }
+
+    public void OnDeathRestartButton ()
+    {
+        Time.timeScale = 1f;
+        isPlayerAbleToMove = true;
+        playerController.SetTransform(checkPoints[checkPointIndex].position);
+        print("ss");
+        var playerHealthSystemRef = playerController.transform.GetComponent<PlayerHealth>();
+        playerHealthSystemRef.healthSystem.Heal(1000);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    #endregion
+
+    [HideInInspector] public bool isPlayerAbleToMove = true;
+    public bool IsPlayerAbleToMove => isPlayerAbleToMove;
+
+    [Space]
+    [SerializeField] private PlayerController playerController = null;
     [Header("Save System")]
     [SerializeField] private SaveLoadSystem saveSystemReference = null; 
 
@@ -33,7 +61,6 @@ public class GameManager : MonoBehaviour, ISaveable
             Destroy(this);
         }
 
-        playerController = FindObjectOfType<PlayerController>();
     }
 
     private void Start ()
@@ -44,12 +71,6 @@ public class GameManager : MonoBehaviour, ISaveable
     // CheckPoints Related 
     private void PositionPlayerAtCheckPoint ()
     {
-        if(checkPointIndex == -1)
-        {
-            startingPosition = playerController.transform.position;
-            return;
-        }
-
         var checkPointPosition = checkPoints[checkPointIndex].position;
 
         var spawnPoint = new Vector3(
@@ -75,6 +96,34 @@ public class GameManager : MonoBehaviour, ISaveable
     }
 
     // Game Logic
+
+    #region Espace_Menu
+
+    [SerializeField] private KeyCode pauseMenuToggleKey = KeyCode.Escape;
+    [SerializeField] private GameObject pauseMenuUI = null;
+
+    public void PauseMenu ()
+    {
+        if (Input.GetKeyDown(pauseMenuToggleKey))
+        {
+            PauseOrUnpause();
+        }
+    }
+
+    public void PauseOrUnpause ()
+    {
+        pauseMenuUI.SetActive(!pauseMenuUI.activeSelf);
+        Time.timeScale = pauseMenuUI.activeSelf ? 0f : 1f;
+        isPlayerAbleToMove = !pauseMenuUI.activeSelf;
+    }
+
+    #endregion
+
+    private void Update ()
+    {
+        PauseMenu();
+    }
+
     public void ChangeCursor(int value)
     {
         Cursor.SetCursor(cursorList[value], new Vector2(cursorList[value].width / 2, cursorList[value].height / 2), CursorMode.Auto);
@@ -93,6 +142,7 @@ public class GameManager : MonoBehaviour, ISaveable
 
     public void GameOver () {
         Time.timeScale = 0f;
+        TriggerDeathUI();
     }
 
     // ISaveable Interface
@@ -117,8 +167,4 @@ public class GameManager : MonoBehaviour, ISaveable
         public int checkPointIndex;
     }
 
-    public void SaveGame ()
-    {
-        saveSystemReference.Save();
-    }
 }

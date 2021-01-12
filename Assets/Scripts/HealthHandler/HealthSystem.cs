@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
+[Serializable]
 public class HealthSystem 
 {
     public event EventHandler OnHealChanged;
@@ -74,5 +74,13 @@ public class HealthSystem
         if (health > healthMax) health = healthMax;
         OnHealChanged?.Invoke(this, EventArgs.Empty);
 
+    }
+
+    public void SetMaxHealth (int value)
+    {
+        healthMax = value;
+        health = healthMax;
+
+        OnHealChanged?.Invoke(this, EventArgs.Empty);
     }
 }
